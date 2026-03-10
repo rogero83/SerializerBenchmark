@@ -26,7 +26,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Run Benchmarks
       run: |
-        dotnet run --project SerializerBenchmark.Benchmarks/SerializerBenchmark.Benchmarks.csproj --configuration Release -- --filter * --join
+        dotnet run --project SerializerBenchmark.Benchmarks/SerializerBenchmark.Benchmarks.csproj --configuration Release
       # BenchmarkDotNet generates results in BenchmarkDotNet.Artifacts/results
     - name: Upload Benchmark Results
       uses: actions/upload-artifact@v4
