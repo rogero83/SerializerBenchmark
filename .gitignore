@@ -1,0 +1,44 @@
+## [Visual Studio]
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+
+## [Visual Studio Code]
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+## [Node - Vite]
+node_modules/
+Client/node_modules/
+Client/dist/
+Client/dist-ssr/
+*.local
+.env
+.env.*.local
+
+## [.NET - General]
+.aspnet/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+TestResults/
+*.swp
+*.*~
+.DS_Store
+
+## [BenchmarkDotNet]
+**/BenchmarkDotNet.Artifacts/
+
+## [Aspire]
+.aspire/
+
+## [User secrets & Logs]
+secrets.json
+*.log

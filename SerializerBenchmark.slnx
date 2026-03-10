@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="SerializerBenchmark.AppHost/SerializerBenchmark.AppHost.csproj" />
+    <Project Path="SerializerBenchmark.ServiceDefaults/SerializerBenchmark.ServiceDefaults.csproj" />
+  </Folder>
+  <Project Path="SerializerBenchmark.Benchmarks/SerializerBenchmark.Benchmarks.csproj" />
+  <Project Path="SerializerBenchmark.Core/SerializerBenchmark.Core.csproj" />
+  <Project Path="Server/Server.csproj" />
+</Solution>
