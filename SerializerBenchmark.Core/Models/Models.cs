@@ -1,6 +1,7 @@
 using MemoryPack;
 using MessagePack;
 using ProtoBuf;
+using SerializerBenchmark.Core.Utility;
 using System.Text.Json.Serialization;
 
 namespace SerializerBenchmark.Core.Models;
@@ -173,7 +174,7 @@ public class BenchmarkResult
 
 public class BenchmarkRequest
 {
-    public string Scenario { get; set; } = "integers";
+    public string Scenario { get; set; } = ScenarioName.Integers;
     public int ItemCount { get; set; } = 1000;
     public int Iterations { get; set; } = 100;
     public string[] Serializers { get; set; } = SerialializerModel.Serializers;
@@ -198,4 +199,5 @@ public class BenchmarkRequest
 [JsonSerializable(typeof(LogEntry))]
 [JsonSerializable(typeof(LogPayload))]
 [JsonSerializable(typeof(BulkArrayPayload))]
+[JsonSerializable(typeof(List<BenchmarkResult>))]
 public partial class MyJsonSerializerContext : JsonSerializerContext { }

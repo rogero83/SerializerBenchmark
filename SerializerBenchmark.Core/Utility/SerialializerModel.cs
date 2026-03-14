@@ -1,4 +1,4 @@
-﻿namespace SerializerBenchmark.Core.Models;
+﻿namespace SerializerBenchmark.Core.Utility;
 
 public class SerialializerModel
 {
@@ -7,13 +7,18 @@ public class SerialializerModel
     public required string Version { get; set; }
     public required string Color { get; set; }
 
-    public static SerialializerModel[] SerialializerModels => new SerialializerModel[]
-        {
+    public static SerialializerModel[] SerialializerModels => [
             new() {
                 Id = SerializerName.SystemTextJson,
                 Label = "System.Text.Json",
                 Version = "10.0",
                 Color = "#f97316"
+            },
+            new() {
+                Id = SerializerName.SystemTextJsonUtf8,
+                Label = "System.Text.Json Utf8",
+                Version = "10.0",
+                Color = "#527316"
             },
             new(){
                 Id = SerializerName.Protobuf,
@@ -33,7 +38,7 @@ public class SerialializerModel
                 Version = "1.21.4",
                 Color = "#22c55e"
             },
-        };
+        ];
 
     public static string[] Serializers => [.. SerialializerModels.Select(s => s.Id)];
 }

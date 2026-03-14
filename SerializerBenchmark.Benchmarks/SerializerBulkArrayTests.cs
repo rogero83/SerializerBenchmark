@@ -13,7 +13,7 @@ public partial class AllSerializerBenchmarks
     // ─────────────────────────────────────────
 
     [BenchmarkCategory("Serialization BulkArray"), Benchmark(Baseline = true)]
-    public string Json_BulkArray_Serialize() => JsonSerializer.Serialize(_bulkArray, MyJsonSerializerContext.Default.BulkArrayPayload);
+    public byte[] Json_BulkArray_Serialize() => JsonSerializer.SerializeToUtf8Bytes(_bulkArray, MyJsonSerializerContext.Default.BulkArrayPayload);
 
     [BenchmarkCategory("Serialization BulkArray"), Benchmark()]
     public byte[] Protobuf_BulkArray_Serialize()

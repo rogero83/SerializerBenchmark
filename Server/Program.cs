@@ -1,3 +1,5 @@
+using SerializerBenchmark.Server.Interfaces;
+using SerializerBenchmark.Server.Scenarios;
 using SerializerBenchmark.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,23 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.WriteIndented = false;
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
+
+// Serializers
+builder.Services.AddScoped<ISerializerService, TextJsonService>();
+builder.Services.AddScoped<ISerializerService, TextJsonUtf8Service>();
+builder.Services.AddScoped<ISerializerService, ProtobufService>();
+builder.Services.AddScoped<ISerializerService, MessagePackService>();
+builder.Services.AddScoped<ISerializerService, MemoryPackService>();
+
+// Scenarios
+builder.Services.AddScoped<IScenarioStrategy, IntegersScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, DecimalsScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, FloatsScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, StringsScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, NestedScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, DateTimeScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, RepeatedScenarioStrategy>();
+builder.Services.AddScoped<IScenarioStrategy, BulkArrayScenarioStrategy>();
 
 builder.Services.AddScoped<BenchmarkService>();
 builder.Services.AddEndpointsApiExplorer();

@@ -88,7 +88,7 @@ Il client React sarà disponibile su: **http://localhost:5173**
   "scenario": "integers",
   "itemCount": 1000,
   "iterations": 200,
-  "serializers": ["SystemTextJson", "Protobuf", "MessagePack", "MemoryPack"]
+  "serializers": ["SystemTextJson", "SystemTextJsonUtf8", "Protobuf", "MessagePack", "MemoryPack"]
 }
 ```
 
@@ -112,15 +112,40 @@ Il client React sarà disponibile su: **http://localhost:5173**
 
 ---
 
+---
+
+## 🛠️ Architettura e Progetto
+
+Il progetto è strutturato seguendo principi di modularità ed estensibilità:
+
+- **SerializerBenchmark.Core**: Contiene i modelli condivisi, i generatori di dati deterministici e le costanti.
+- **Server**: Implementa i benchmark utilizzando lo **Strategy Pattern**. Ogni scenario è una classe indipendente che implementa `IScenarioStrategy`.
+- **Client**: Interfaccia React moderna per la visualizzazione dei risultati in tempo reale.
+
+### Estensibilità degli Scenari
+
+Aggiungere un nuovo scenario di benchmark è semplicissimo grazie allo Strategy Pattern:
+
+1. Crea una nuova classe in `Server/Scenarios` che eredita da `BaseScenarioStrategy`.
+2. Implementa la logica di generazione dati in `DataGenerator` (in `Core`).
+3. Registra la nuova strategia in `Program.cs`.
+4. Aggiungi il nome dello scenario in `ScenarioName.cs`.
+
+---
+
 ## Note tecniche
 
-- La misurazione usa `System.Diagnostics.Stopwatch` ad alta risoluzione
-- Ogni benchmark include un **warmup** prima della misurazione reale
-- I dati sono generati deterministicamente (`Random seed = 42`)
-- I modelli sono annotati con tutti e quattro i sistemi di attributi:
+
+- **Source Generation**: I modelli sono annotati con tutti e quattro i sistemi di attributi:
   - `[ProtoContract]` / `[ProtoMember]` per protobuf-net
   - `[MessagePackObject]` / `[Key]` per MessagePack
   - `[MemoryPackable]` / `[MemoryPackOrder]` per MemoryPack
-  - System.Text.Json funziona con le property pubbliche senza attributi, ma con source-generated
+  - System.Text.Json funziona con le property pubbliche senza attributi, ma con source-generated.
+    - Nel client ho aggiunto anche SystemTextJsonUtf8 che usa JsonSerializer.SerializeToUtf8Bytes e JsonSerializer.Deserialize(byte[]) invece di JsonSerializer.Serialize(string) e JsonSerializer.Deserialize(string).
+    - Nei benchmark c'è solo SystemTextJsonUtf8.
+- **Warmup**: Ogni benchmark include una fase di "riscaldamento" per stabilizzare il JIT.
+- **Determinismo**: I dati sono generati con un seed fisso (`42`) per garantire che ogni serializzatore testi esattamente lo stesso set di dati.
+- **Misurazione**: Utilizzo di `Stopwatch` ad alta risoluzione per catturare micro-differenze di performance.
+- **UTF-8**: Il benchmark include test specifici per `System.Text.Json` operando direttamente su stream UTF-8, evitando l'overhead della conversione in stringa.
 
 ---

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis,
@@ -7,12 +7,7 @@ import {
 import { useBenchmark } from './hooks/useBenchmark'
 import type { BenchmarkRequest, MetricKey } from './types'
 
-const FALLBACK_COLORS: Record<string, string> = {
-  SystemTextJson: '#f97316',
-  Protobuf: '#3b82f6',
-  MessagePack: '#a855f7',
-  MemoryPack: '#22c55e',
-}
+
 
 const METRIC_LABELS: Record<MetricKey, { label: string; unit: string; short: string }> = {
   sizeBytes: { label: 'Dimensione', unit: 'B', short: 'Bytes' },
@@ -52,15 +47,22 @@ export default function App() {
   const [scenario, setScenario] = useState('integers')
   const [itemCount, setItemCount] = useState(1000)
   const [iterations, setIterations] = useState(200)
-  const [selectedSerializers, setSelectedSerializers] = useState<string[]>(['SystemTextJson', 'Protobuf', 'MessagePack', 'MemoryPack'])
+  const [selectedSerializers, setSelectedSerializers] = useState<string[]>([])
   const [metric, setMetric] = useState<MetricKey>('sizeBytes')
   const [activeTab, setActiveTab] = useState<'bar' | 'radar' | 'history'>('bar')
   const [hiddenLines, setHiddenLines] = useState<Record<string, boolean>>({})
 
+  // Initialize selected serializers when they are loaded
+  useEffect(() => {
+    if (serializers.length > 0 && selectedSerializers.length === 0) {
+      setSelectedSerializers(serializers.map(s => s.id))
+    }
+  }, [serializers])
+
   const colors = Object.fromEntries(
     serializers.map(s => [s.id, s.color])
   )
-  const getColor = (id: string) => colors[id] ?? FALLBACK_COLORS[id] ?? '#64748b'
+  const getColor = (id: string) => colors[id] ?? '#64748b'
 
   const toggleSerializer = (id: string) => {
     setSelectedSerializers(prev =>
@@ -99,10 +101,10 @@ export default function App() {
   const radarData = (['sizeBytes', 'serializeMs', 'deserializeMs'] as MetricKey[]).map(m => {
     const vals = results.filter(r => !r.error).map(r => r[m])
     const min = Math.min(...vals)
-    const row: Record<string, any> = { 
+    const row: Record<string, any> = {
       metric: METRIC_LABELS[m].short,
       fullMetric: METRIC_LABELS[m].label,
-      unit: METRIC_LABELS[m].unit 
+      unit: METRIC_LABELS[m].unit
     }
     results.filter(r => !r.error).forEach(r => {
       const label = serializers.find(s => s.id === r.serializer)?.label ?? r.serializer
@@ -215,7 +217,9 @@ export default function App() {
                 🔬 Serializer Benchmark
               </h1>
               <p style={{ color: '#64748b', fontSize: 12 }}>
-                System.Text.Json · protobuf-net · MessagePack · MemoryPack · .NET 10
+                {serializers.length > 0
+                  ? serializers.map(s => s.label).join(' · ')
+                  : 'Nessun serializzatore configurato'} · .NET 10
               </p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -256,15 +260,7 @@ export default function App() {
             <div style={S.card}>
               <span style={S.label}>📋 Scenario</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {(scenarios.length ? scenarios : [
-                  { id: 'integers', label: 'Interi (int/long)', icon: '🔢', description: '' },
-                  { id: 'floats', label: 'Float / Double', icon: '🔣', description: '' },
-                  { id: 'strings', label: 'Stringhe', icon: '📝', description: '' },
-                  { id: 'nested', label: 'Oggetti annidati', icon: '🏗️', description: '' },
-                  { id: 'datetime', label: 'DateTime / GUID', icon: '📅', description: '' },
-                  { id: 'repeated', label: 'Dati ripetuti', icon: '🔁', description: '' },
-                  { id: 'bulkarray', label: 'Array primitivi (bulk)', icon: '📦', description: '' },
-                ]).map(s => (
+                {(scenarios).map(s => (
                   <button key={s.id} onClick={() => setScenario(s.id)} style={S.btn(scenario === s.id)}>
                     {s.icon} {s.label}
                   </button>
@@ -276,7 +272,7 @@ export default function App() {
             <div style={S.card}>
               <span style={S.label}>⚙️ Serializzatori</span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {(['SystemTextJson', 'Protobuf', 'MessagePack', 'MemoryPack'] as const).map(id => {
+                {(serializers.map(s => s.id)).map(id => {
                   const info = serializers.find(s => s.id === id)
                   const color = getColor(id)
                   const active = selectedSerializers.includes(id)
@@ -444,19 +440,19 @@ export default function App() {
                         />
                       )
                     })}
-                    <Tooltip 
+                    <Tooltip
                       content={<CustomTooltip />}
                       formatter={(value: any, name: string, props: any) => {
                         return [value, name, { originalValue: props.payload[`${name}_val`], unit: props.payload.unit }]
                       }}
                     />
-                    <Legend 
+                    <Legend
                       onClick={handleLegendClick}
                       wrapperStyle={{ cursor: 'pointer', paddingTop: 20 }}
                       formatter={(v) => (
-                        <span style={{ 
-                          color: hiddenLines[v] ? '#475569' : '#94a3b8', 
-                          fontSize: 11, 
+                        <span style={{
+                          color: hiddenLines[v] ? '#475569' : '#94a3b8',
+                          fontSize: 11,
                           fontFamily: 'IBM Plex Mono',
                           textDecoration: hiddenLines[v] ? 'line-through' : 'none',
                           transition: 'all 0.2s'
