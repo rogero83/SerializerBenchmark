@@ -1,11 +1,12 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using MemoryPack;
 using MessagePack;
 using ProtoBuf;
 using SerializerBenchmark.Core.Models;
-using SerializerBenchmark.Core.Services;
+using SerializerBenchmark.Core.Utility;
 using System.Text.Json;
 
 namespace SerializerBenchmark.Benchmarks;
@@ -144,5 +145,16 @@ public partial class AllSerializerBenchmarks
         using var ms = new MemoryStream();
         Serializer.Serialize(ms, data);
         return ms.ToArray();
+    }
+}
+
+
+public class MyConfig : ManualConfig
+{
+    public MyConfig()
+    {
+        AddJob(Job.Default
+            .WithRuntime(CoreRuntime.Core10_0)
+            .WithEnvironmentVariable("DOTNET_TieredCompilation", "0")); // disabilita tiered
     }
 }

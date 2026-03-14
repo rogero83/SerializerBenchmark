@@ -1,12 +1,12 @@
-using SerializerBenchmark.Core.Interfaces;
 using SerializerBenchmark.Core.Models;
-using SerializerBenchmark.Core.Services;
+using SerializerBenchmark.Server.Interfaces;
 
 namespace SerializerBenchmark.Server.Services;
 
-public class BenchmarkService(IEnumerable<ISerializerService> serializerServices)
+public class BenchmarkService(IEnumerable<IScenarioStrategy> scenarioStrategies)
 {
-    private readonly Dictionary<string, ISerializerService> serializers = serializerServices.ToDictionary(k => k.Name, v => v);
+    private readonly Dictionary<string, IScenarioStrategy> _scenarios
+        = scenarioStrategies.ToDictionary(k => k.Name, v => v);
 
     public async Task<List<BenchmarkResult>> RunAsync(BenchmarkRequest request)
     {
@@ -35,36 +35,9 @@ public class BenchmarkService(IEnumerable<ISerializerService> serializerServices
 
     private Task<BenchmarkResult> RunScenario(string serializer, string scenario, int count, int iterations)
     {
-        return scenario switch
-        {
-            "integers" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateIntegers(count), iterations),
-            "decimals" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateDecimal(count), iterations),
-            "floats" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateFloats(count), iterations),
-            "strings" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateStrings(count), iterations),
-            "nested" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateNested(count), iterations),
-            "datetime" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateTemporal(count), iterations),
-            "repeated" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateLogs(count), iterations),
-            "bulkarray" => BenchmarkGeneric(serializer, scenario, DataGenerator.GenerateBulkArray(count), iterations),
-            _ => throw new ArgumentException($"Unknown scenario: {scenario}"),
-        };
-    }
+        if (!_scenarios.TryGetValue(scenario, out var strategy))
+            throw new ArgumentException($"Unknown scenario: {scenario}");
 
-    private Task<BenchmarkResult> BenchmarkGeneric<T>(
-        string serializer, string scenario, T data, int iterations)
-    {
-        if (!serializers.TryGetValue(serializer, out var service))
-            throw new ArgumentException($"Unknown serializer: {serializer}");
-
-        var measureResult = service.Measure(data, iterations);
-
-        return Task.FromResult(new BenchmarkResult
-        {
-            Serializer = serializer,
-            Scenario = scenario,
-            SizeBytes = measureResult.Size,
-            SerializeMs = Math.Round(measureResult.SerMs, 4),
-            DeserializeMs = Math.Round(measureResult.DeserMs, 4),
-            Iterations = iterations,
-        });
+        return strategy.RunAsync(serializer, count, iterations);
     }
 }

@@ -12,9 +12,4 @@
     <PackageReference Include="protobuf-net" Version="3.2.56" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataGenerator\" />
-    <Folder Include="Utility\" />
-  </ItemGroup>
-
 </Project>

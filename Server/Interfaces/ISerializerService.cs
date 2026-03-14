@@ -1,6 +1,6 @@
-﻿using SerializerBenchmark.Core.Models;
+﻿using SerializerBenchmark.Server.Models;
 
-namespace SerializerBenchmark.Core.Interfaces;
+namespace SerializerBenchmark.Server.Interfaces;
 
 public interface ISerializerService
 {

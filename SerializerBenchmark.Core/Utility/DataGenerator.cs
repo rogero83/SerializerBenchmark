@@ -1,6 +1,6 @@
 using SerializerBenchmark.Core.Models;
 
-namespace SerializerBenchmark.Core.Services;
+namespace SerializerBenchmark.Core.Utility;
 
 public static class DataGenerator
 {

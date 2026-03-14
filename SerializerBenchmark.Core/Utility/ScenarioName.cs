@@ -1,9 +1,9 @@
-﻿namespace SerializerBenchmark.Core.Models;
+﻿namespace SerializerBenchmark.Core.Utility;
 
 public static class ScenarioName
 {
     public static string Integers => "integers";
-    public static string Decimal => "decimals";
+    public static string Decimals => "decimals";
     public static string Floats => "floats";
     public static string Strings => "strings";
     public static string Nested => "nested";

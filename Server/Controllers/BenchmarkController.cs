@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SerializerBenchmark.Core.Models;
+using SerializerBenchmark.Core.Utility;
 using SerializerBenchmark.Server.Services;
 
 namespace SerializerBenchmark.Server.Controllers;
@@ -37,14 +38,14 @@ public class BenchmarkController(BenchmarkService benchmarkService,
     {
         var scenarios = new[]
         {
-            new { id = "integers", label = "Interi (int/long)", icon = "🔢", description = "Array di interi 32/64 bit" },
-            new { id = "decimals", label = "Decimali (decimal)", icon = "🔣", description = "Array di decimali positivi e negativi" },
-            new { id = "floats", label = "Float / Double", icon = "🔣", description = "Array IEEE 754 float e double" },
-            new { id = "strings", label = "Stringhe", icon = "📝", description = "Array di stringhe UTF-8 variabili" },
-            new { id = "nested", label = "Oggetti annidati", icon = "🏗️", description = "Grafi di oggetti con 5+ livelli" },
-            new { id = "datetime", label = "DateTime / GUID", icon = "📅", description = "Record con timestamp e identificatori unici" },
-            new { id = "repeated", label = "Dati ripetuti", icon = "🔁", description = "Log entries con valori enum ripetuti" },
-            new { id = "bulkarray", label = "Array primitivi (bulk)", icon = "📦", description = "Grandi array di int, double e byte" },
+            new { id = ScenarioName.Integers, label = "Interi (int/long)", icon = "🔢", description = "Array di interi 32/64 bit" },
+            new { id = ScenarioName.Decimals, label = "Decimali (decimal)", icon = "🔣", description = "Array di decimali positivi e negativi" },
+            new { id = ScenarioName.Floats, label = "Float / Double", icon = "🔣", description = "Array IEEE 754 float e double" },
+            new { id = ScenarioName.Strings, label = "Stringhe", icon = "📝", description = "Array di stringhe UTF-8 variabili" },
+            new { id = ScenarioName.Nested, label = "Oggetti annidati", icon = "🏗️", description = "Grafi di oggetti con 5+ livelli" },
+            new { id = ScenarioName.DateTime, label = "DateTime / GUID", icon = "📅", description = "Record con timestamp e identificatori unici" },
+            new { id = ScenarioName.Repeated, label = "Dati ripetuti", icon = "🔁", description = "Log entries con valori enum ripetuti" },
+            new { id = ScenarioName.BulkArray, label = "Array primitivi (bulk)", icon = "📦", description = "Grandi array di int, double e byte" },
         };
         return Ok(scenarios);
     }

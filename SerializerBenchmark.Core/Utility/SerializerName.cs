@@ -1,4 +1,4 @@
-﻿namespace SerializerBenchmark.Core.Models;
+﻿namespace SerializerBenchmark.Core.Utility;
 
 public static class SerializerName
 {
