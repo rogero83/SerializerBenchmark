@@ -88,7 +88,7 @@ Il client React sarà disponibile su: **http://localhost:5173**
   "scenario": "integers",
   "itemCount": 1000,
   "iterations": 200,
-  "serializers": ["SystemTextJson", "Protobuf", "MessagePack", "MemoryPack"]
+  "serializers": ["SystemTextJson", "SystemTextJsonUtf8", "Protobuf", "MessagePack", "MemoryPack"]
 }
 ```
 
@@ -121,6 +121,8 @@ Il client React sarà disponibile su: **http://localhost:5173**
   - `[ProtoContract]` / `[ProtoMember]` per protobuf-net
   - `[MessagePackObject]` / `[Key]` per MessagePack
   - `[MemoryPackable]` / `[MemoryPackOrder]` per MemoryPack
-  - System.Text.Json funziona con le property pubbliche senza attributi, ma con source-generated
+  - System.Text.Json funziona con le property pubbliche senza attributi, ma con source-generated.
+    - Nel client ho aggiunto anche SystemTextJsonUtf8 che usa JsonSerializer.SerializeToUtf8Bytes e JsonSerializer.Deserialize(byte[]) invece di JsonSerializer.Serialize(string) e JsonSerializer.Deserialize(string).
+    - Nei benchmark c'è solo SystemTextJsonUtf8.
 
 ---

@@ -1,3 +1,4 @@
+using SerializerBenchmark.Core.Interfaces;
 using SerializerBenchmark.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,12 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.WriteIndented = false;
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
+
+builder.Services.AddScoped<ISerializerService, TextJsonService>();
+builder.Services.AddScoped<ISerializerService, TextJsonUtf8Service>();
+builder.Services.AddScoped<ISerializerService, ProtobufService>();
+builder.Services.AddScoped<ISerializerService, MessagePackService>();
+builder.Services.AddScoped<ISerializerService, MemoryPackService>();
 
 builder.Services.AddScoped<BenchmarkService>();
 builder.Services.AddEndpointsApiExplorer();

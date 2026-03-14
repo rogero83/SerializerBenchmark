@@ -198,4 +198,5 @@ public class BenchmarkRequest
 [JsonSerializable(typeof(LogEntry))]
 [JsonSerializable(typeof(LogPayload))]
 [JsonSerializable(typeof(BulkArrayPayload))]
+[JsonSerializable(typeof(List<BenchmarkResult>))]
 public partial class MyJsonSerializerContext : JsonSerializerContext { }

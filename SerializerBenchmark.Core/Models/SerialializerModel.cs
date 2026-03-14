@@ -15,6 +15,12 @@ public class SerialializerModel
                 Version = "10.0",
                 Color = "#f97316"
             },
+            new() {
+                Id = SerializerName.SystemTextJsonUtf8,
+                Label = "System.Text.Json Utf8",
+                Version = "10.0",
+                Color = "#527316"
+            },
             new(){
                 Id = SerializerName.Protobuf,
                 Label = "protobuf-net",

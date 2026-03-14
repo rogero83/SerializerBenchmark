@@ -10,15 +10,19 @@
 
   <ItemGroup>
     <!-- JSON (built-in) -->
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.4" />
 
     <!-- CORS & Swagger -->
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SerializerBenchmark.ServiceDefaults\SerializerBenchmark.ServiceDefaults.csproj" />
     <ProjectReference Include="..\SerializerBenchmark.Core\SerializerBenchmark.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
