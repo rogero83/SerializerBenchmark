@@ -5,6 +5,7 @@ using BenchmarkDotNet.Jobs;
 using MemoryPack;
 using MessagePack;
 using ProtoBuf;
+using ProtoBuf.Meta;
 using SerializerBenchmark.Core.Models;
 using SerializerBenchmark.Core.Utility;
 using System.Text.Json;
@@ -83,6 +84,9 @@ public partial class AllSerializerBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        // Pre-compila protobuf-net
+        RuntimeTypeModel.Default.CompileInPlace();
+
         // Integers Setup
         _integers = DataGenerator.GenerateIntegers(ItemCount);
         _jsonIntegersString = JsonSerializer.SerializeToUtf8Bytes(_integers, MyJsonSerializerContext.Default.IntegerPayload);

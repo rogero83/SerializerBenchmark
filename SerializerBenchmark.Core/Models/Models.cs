@@ -9,7 +9,7 @@ namespace SerializerBenchmark.Core.Models;
 // ─────────────────────────────────────────────
 // Scenario: Interi
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class IntegerPayload
@@ -21,7 +21,7 @@ public partial class IntegerPayload
 // ─────────────────────────────────────────────
 // Scenario: Decimal
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class DecimalPayload
@@ -32,7 +32,7 @@ public partial class DecimalPayload
 // ─────────────────────────────────────────────
 // Scenario: Float / Double
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class FloatPayload
@@ -44,7 +44,7 @@ public partial class FloatPayload
 // ─────────────────────────────────────────────
 // Scenario: Stringhe
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class StringPayload
@@ -55,7 +55,7 @@ public partial class StringPayload
 // ─────────────────────────────────────────────
 // Scenario: Oggetti annidati
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class Address
@@ -66,7 +66,7 @@ public partial class Address
     [MemoryPackOrder(3)][ProtoMember(4)][Key(3)] public string Country { get; set; } = "";
 }
 
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class ContactInfo
@@ -77,7 +77,7 @@ public partial class ContactInfo
     [MemoryPackOrder(4)][ProtoMember(4)][Key(3)] public Address? WorkAddress { get; set; }
 }
 
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class NestedPerson
@@ -90,7 +90,7 @@ public partial class NestedPerson
     [MemoryPackOrder(5)][ProtoMember(6)][Key(5)] public Dictionary<string, string> Metadata { get; set; } = [];
 }
 
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class NestedPayload
@@ -101,7 +101,7 @@ public partial class NestedPayload
 // ─────────────────────────────────────────────
 // Scenario: DateTime / GUID
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class TemporalRecord
@@ -113,7 +113,7 @@ public partial class TemporalRecord
     [MemoryPackOrder(4)][ProtoMember(5)][Key(4)] public long Version { get; set; }
 }
 
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class TemporalPayload
@@ -124,7 +124,7 @@ public partial class TemporalPayload
 // ─────────────────────────────────────────────
 // Scenario: Dati ripetuti
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class LogEntry
@@ -137,7 +137,7 @@ public partial class LogEntry
     [MemoryPackOrder(5)][ProtoMember(6)][Key(5)] public long Timestamp { get; set; }
 }
 
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class LogPayload
@@ -148,7 +148,7 @@ public partial class LogPayload
 // ─────────────────────────────────────────────
 // Scenario: Array primitivi bulk
 // ─────────────────────────────────────────────
-[ProtoContract]
+[ProtoContract, CompatibilityLevel(CompatibilityLevel.Level300)]
 [MessagePackObject]
 [MemoryPackable]
 public partial class BulkArrayPayload

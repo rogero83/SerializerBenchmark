@@ -1,3 +1,4 @@
+using ProtoBuf.Meta;
 using SerializerBenchmark.Server.Interfaces;
 using SerializerBenchmark.Server.Scenarios;
 using SerializerBenchmark.Server.Services;
@@ -49,6 +50,9 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader();
     });
 });
+
+//RuntimeTypeModel.Default.Add(typeof(MyRequest), true);
+RuntimeTypeModel.Default.CompileInPlace(); // compila il modello una volta sola
 
 var app = builder.Build();
 
